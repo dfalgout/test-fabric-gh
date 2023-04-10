@@ -1,29 +1,26 @@
 name: 'test-fabric-gh'
 description: 'CI/CD'
 author: 'Tapestry Labs'
-inputs:
-  project_name:
-    required: true
-    description: 'Project Name'
-  project_id:
-    required: true
-    description: 'Project Id'
-  service_account:
-    required: true
-    description: 'Service Account'
 runs:
   using: "composite"
   steps:
     # - id: 'parse_yaml'
     #   name: 'Parse fabric.yaml'
     #   uses: './'
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - id: 'fabric'
+      name: 'get project data'
+      shell: bash
+      run: node dist/index.js
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
         token_format: 'access_token'
-        workload_identity_provider: 'projects/${{ github.event.inputs.project_id }}/locations/global/workloadIdentityPools/${{ github.event.inputs.project_name }}/providers/github'
-        service_account: '${{ github.event.inputs.service_account }}'
+        workload_identity_provider: 'projects/${{ steps.fabric.outputs.project_id }}/locations/global/workloadIdentityPools/${{ steps.fabric.outputs.project_name }}/providers/github'
+        service_account: '${{ steps.fabric.outputs.service_account }}'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
     - uses: 'docker/login-action@v1'
