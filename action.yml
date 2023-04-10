@@ -2,10 +2,9 @@ name: 'test-fabric-gh'
 description: 'CI/CD'
 author: 'Tapestry Labs'
 # inputs:
-#   milliseconds: # change this
+#   projectId:
 #     required: true
 #     description: 'input description here'
-#     default: 'default value if applicable'
 runs:
   using: "composite"
   steps:
@@ -16,7 +15,7 @@ runs:
       with:
         token_format: 'access_token'
         workload_identity_provider: 'projects/728919945741/locations/global/workloadIdentityPools/fabric/providers/github'
-        service_account: 'fabric-375222@appspot.gserviceaccount.com'
+        service_account: 'dev-104@fabric-375222.iam.gserviceaccount.com'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
     - uses: 'docker/login-action@v1'
