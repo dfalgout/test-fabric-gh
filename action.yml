@@ -4,16 +4,9 @@ author: 'Tapestry Labs'
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - name: 'print env'
-      run: 'ls -la'
-      shell: bash
-    # - id: 'fabric'
-    #   name: 'get project data'
-    #   shell: bash
-    #   run: node lib/main.js
+    - id: 'fabric'
+      name: 'get project data'
+      uses: 'dfalgout/fabric-project-data@v0.0.2-test'
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
