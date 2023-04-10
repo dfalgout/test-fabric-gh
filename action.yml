@@ -26,8 +26,6 @@ runs:
         password: '${{ steps.auth.outputs.access_token }}'
     - id: 'gcloud'
       name: 'gcloud'
+      shell: bash
       run: |-
         gcloud services list
-    - id: 'test'
-      name: 'test'
-      uses: './'
