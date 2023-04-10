@@ -8,9 +8,6 @@ author: 'Tapestry Labs'
 #     default: 'default value if applicable'
 runs:
   using: "composite"
-  permissions:
-    contents: 'read'
-    id-token: 'write'
   steps:
     - uses: 'actions/checkout@v3'
     - id: 'auth'
