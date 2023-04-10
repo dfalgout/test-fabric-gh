@@ -4,16 +4,16 @@ author: 'Tapestry Labs'
 runs:
   using: "composite"
   steps:
-    # - id: 'parse_yaml'
-    #   name: 'Parse fabric.yaml'
-    #   uses: './'
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    - id: 'fabric'
-      name: 'get project data'
+    - name: 'print env'
+      run: 'ls -la'
       shell: bash
-      run: node lib/main.js
+    # - id: 'fabric'
+    #   name: 'get project data'
+    #   shell: bash
+    #   run: node lib/main.js
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
