@@ -2,7 +2,7 @@
   "name": "test-fabric-gh",
   "version": "1.0.0",
   "private": true,
-  "main": "lib/index.js",
+  "main": "lib/main.js",
   "repository": "https://github.com/dfalgout/test-fabric-gh.git",
   "author": "lambda <dustinafalgout@gmail.com>",
   "license": "MIT",

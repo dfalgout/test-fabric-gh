@@ -1,23 +1,36 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'fabric'
+description: 'CI/CD'
+author: 'Tapestry Labs'
 # inputs:
 #   milliseconds: # change this
 #     required: true
 #     description: 'input description here'
 #     default: 'default value if applicable'
-# runs:
-#   using: 'node16'
-#   main: 'dist/index.js'
 runs:
   using: "composite"
+  permissions:
+    contents: 'read'
+    id-token: 'write'
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
-    - id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash
-    - run: goodbye.sh
-      shell: bash
+    - uses: 'actions/checkout@v3'
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        token_format: 'access_token'
+        workload_identity_provider: 'projects/728919945741/locations/global/workloadIdentityPools/fabric/providers/github'
+        service_account: 'fabric-375222@appspot.gserviceaccount.com'
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+    - uses: 'docker/login-action@v1'
+      with:
+        registry: 'gcr.io'
+        username: 'oauth2accesstoken'
+        password: '${{ steps.auth.outputs.access_token }}'
+    - id: 'gcloud'
+      name: 'gcloud'
+      run: |-
+        gcloud services list
+    - id: 'test'
+      name: 'test'
+      uses: './'
