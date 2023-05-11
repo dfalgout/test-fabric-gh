@@ -2,27 +2,5 @@ name: 'test-fabric-gh'
 description: 'CI/CD'
 author: 'Tapestry Labs'
 runs:
-  using: "composite"
-  steps:
-    - id: 'fabric'
-      name: 'get project data'
-      uses: 'dfalgout/fabric-project-data@v0.0.2-test'
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        token_format: 'access_token'
-        workload_identity_provider: 'projects/${{ steps.fabric.outputs.project_id }}/locations/global/workloadIdentityPools/${{ steps.fabric.outputs.project_name }}/providers/github'
-        service_account: '${{ steps.fabric.outputs.service_account }}'
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
-    - uses: 'docker/login-action@v1'
-      with:
-        registry: 'gcr.io'
-        username: 'oauth2accesstoken'
-        password: '${{ steps.auth.outputs.access_token }}'
-    - id: 'gcloud'
-      name: 'gcloud'
-      shell: bash
-      run: |-
-        gcloud services list
+  using: 'node16'
+  main: 'dist/index.js'
